@@ -4,13 +4,34 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<body>
+<body style="height: 900vh;">
     <%= htmlWebpackPlugin.options.widgets.header %>
-    <div class="main">
-        <svg class="icon">
-            <use href="assets/sprite.svg#icon-ball"></use>
-        </svg>
-        <img class="image" src="./assets/images/404.webp" alt="">
+    <canvas class="spline-canvas"></canvas>
+    <div class="stack">
+        <button class="button" id="join_model">
+            JOIN_MODEL
+        </button>
+        <button class="button" id="break_model">
+            BREAK_MODEL
+        </button>
+        <button class="button" id="rotate_side_1">
+            ROTATE_SIDE_1
+        </button>
+        <button class="button" id="rotate_side_2">
+            ROTATE_SIDE_2
+        </button>
+        <button class="button" id="make_blue_color">
+            MAKE_BLUE_COLOR
+        </button>
+        <button class="button" id="make_normal_color">
+            MAKE_NORMAL_COLOR
+        </button>
+        <button class="button" id="make_blue_bg">
+            MAKE_BLUE_BG
+        </button>
+        <button class="button" id="make_normal_bg">
+            MAKE_NORMAL_BG
+        </button>
     </div>
     <%= htmlWebpackPlugin.options.widgets.footer %>
 </body>

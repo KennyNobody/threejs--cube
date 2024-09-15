@@ -1,6 +1,6 @@
 import {Application, SPEObject} from '@splinetool/runtime';
-import {animateObject, AnimationKey} from "./animateObject";
-import gsap from "gsap";
+import {callInnerAnimation, AnimationKey} from "./callInnerAnimation";
+import {animateSpline} from "./animate";
 
 class Spline {
     application: Application;
@@ -14,36 +14,34 @@ class Spline {
         this.application = new Application(el);
         this.application.load(url).then(() => {
             this.cube = this.application.findObjectByName('cube');
-
+            animateSpline(this.application, 0);
             this.initAnimateButton();
         })
     }
 
     initAnimateButton = () => {
-        const elements = document.querySelectorAll('.button');
+        const elementsDemo = document.querySelectorAll('.button');
+        const elementsActive = document.querySelectorAll('.button-active');
 
-        elements.forEach((item) => {
+        elementsDemo.forEach((item) => {
             item.addEventListener('click', () => {
                 this.triggerButtonEvent(item.id as AnimationKey);
             })
-        })
+        });
+
+        elementsActive.forEach((item) => {
+            item.addEventListener('click', () => {
+                this.triggerButtonActiveEvent(Number(item.id));
+            })
+        });
     }
 
     triggerButtonEvent = (buttonID: AnimationKey) => {
-        // let rotateKeyboard = gsap.to(this.cube.rotation, {
-        //     y: Math.PI * 2 + this.cube.rotation.y,
-        //     x: Math.PI * 2 + this.cube.rotation.x,
-        //     z: 0,
-        //     duration: 10,
-        //     repeat: 1,
-        //     ease: "none"
-        // });
+        callInnerAnimation(this.application, buttonID);
+    }
 
-        this.cube.rotation.z = -0.8;
-        this.cube.rotation.y = -0.8;
-
-        console.log('Крутим');
-        // animateObject(this.application, buttonID);
+    triggerButtonActiveEvent = (buttonID: number) => {
+        animateSpline(this.application, buttonID);
     }
 
     // handleResize = () => {

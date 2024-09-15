@@ -1,4 +1,4 @@
-import {Spline} from "./spline";
+import {Spline} from "./spline/spline";
 
 class App {
     splineURL: string;

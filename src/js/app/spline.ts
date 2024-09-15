@@ -1,24 +1,20 @@
-import GUI from 'lil-gui';
-import {Application} from '@splinetool/runtime';
+import {Application, SPEObject} from '@splinetool/runtime';
 import {animateObject, AnimationKey} from "./animateObject";
+import gsap from "gsap";
 
 class Spline {
-    gui: GUI;
     application: Application;
-    group: any;
+    cube: SPEObject;
 
     constructor(el: HTMLCanvasElement, url: string) {
         this.setApplication(el, url);
-        this.initGUI();
     }
 
     setApplication = (el: HTMLCanvasElement, url: string) => {
         this.application = new Application(el);
         this.application.load(url).then(() => {
-            console.log('app загружен');
-            // this.handleResize();
-            this.group = this.application.getAllObjects();
-            console.log(this.group);
+            this.cube = this.application.findObjectByName('cube');
+
             this.initAnimateButton();
         })
     }
@@ -34,18 +30,20 @@ class Spline {
     }
 
     triggerButtonEvent = (buttonID: AnimationKey) => {
-        animateObject(this.application, buttonID);
-    }
+        // let rotateKeyboard = gsap.to(this.cube.rotation, {
+        //     y: Math.PI * 2 + this.cube.rotation.y,
+        //     x: Math.PI * 2 + this.cube.rotation.x,
+        //     z: 0,
+        //     duration: 10,
+        //     repeat: 1,
+        //     ease: "none"
+        // });
 
-    private initGUI = () => {
-        this.gui = new GUI({
-            title: 'Параметры сцены',
-        });
-        const cube = this.application.findObjectByName('cube');
-        this.gui.close();
-        this.gui.add(cube, 'z').min(0).max(18).step(0.1).name('group Z rotation');
-        // this.gui.add(this.group, 'visible');
-        // this.gui.add(this.axes, 'visible');
+        this.cube.rotation.z = -0.8;
+        this.cube.rotation.y = -0.8;
+
+        console.log('Крутим');
+        // animateObject(this.application, buttonID);
     }
 
     // handleResize = () => {

@@ -4,7 +4,7 @@ class App {
     splineURL: string;
 
     constructor() {
-        this.splineURL = 'https://prod.spline.design/suIAOD2A8KBFwyk6/scene.splinecode';
+        this.splineURL = 'https://prod.spline.design/IwWm8hiQykF5RxzD/scene.splinecode';
         this.init();
         this.initSpline();
     }

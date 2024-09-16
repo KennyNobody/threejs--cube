@@ -1,4 +1,4 @@
-import {Application} from "@splinetool/runtime";
+import { Application } from "@splinetool/runtime";
 
 enum AnimationKey {
     JOIN_MODEL = 'join_model',
@@ -14,53 +14,30 @@ enum AnimationKey {
 }
 
 function callInnerAnimation(app: Application, key: AnimationKey) {
-    const bg = app.findObjectByName('bg');
-    const cube = app.findObjectByName('cube');
-    const side_1 = app.findObjectByName('side_1');
-    const side_2 = app.findObjectByName('side_2');
+    const objects = {
+        bg: app.findObjectByName('bg'),
+        cube: app.findObjectByName('cube'),
+        side_1: app.findObjectByName('side_1'),
+        side_2: app.findObjectByName('side_2')
+    };
 
-    if (key === AnimationKey.JOIN_MODEL) {
-        app.emitEvent('mouseDown', cube.uuid);
-    }
+    const events = {
+        [AnimationKey.JOIN_MODEL]: () => app.emitEvent('keyUp', objects.cube.uuid),
+        [AnimationKey.BREAK_MODEL]: () => app.emitEvent('mouseDown', objects.cube.uuid),
+        [AnimationKey.ROTATE_SIDE_1]: () => app.emitEvent('keyDown', objects.side_1.uuid),
+        [AnimationKey.ROTATE_REVERSE_SIDE_1]: () => app.emitEvent('keyUp', objects.side_1.uuid),
+        [AnimationKey.ROTATE_SIDE_2]: () => app.emitEvent('keyDown', objects.side_2.uuid),
+        [AnimationKey.ROTATE_REVERSE_SIDE_2]: () => app.emitEvent('keyUp', objects.side_2.uuid),
+        [AnimationKey.MAKE_BLUE_COLOR]: () => app.emitEvent('keyDown', objects.cube.uuid),
+        [AnimationKey.MAKE_NORMAL_COLOR]: () => app.emitEvent('keyUp', objects.cube.uuid),
+        [AnimationKey.MAKE_BLUE_BG]: () => app.emitEventReverse('keyDown', objects.bg.uuid),
+        [AnimationKey.MAKE_NORMAL_BG]: () => app.emitEventReverse('keyUp', objects.bg.uuid),
+    };
 
-    if (key === AnimationKey.BREAK_MODEL) {
-        app.emitEvent('keyUp', cube.uuid);
-    }
-
-    if (key === AnimationKey.ROTATE_SIDE_1) {
-        app.emitEvent('keyDown', side_1.uuid);
-    }
-
-    if (key === AnimationKey.ROTATE_REVERSE_SIDE_1) {
-        app.emitEvent('keyUp', side_1.uuid);
-    }
-
-    if (key === AnimationKey.ROTATE_SIDE_2) {
-        app.emitEvent('keyDown', side_2.uuid);
-    }
-
-    if (key === AnimationKey.ROTATE_REVERSE_SIDE_2) {
-        app.emitEvent('keyUp', side_2.uuid);
-    }
-
-    if (key === AnimationKey.MAKE_BLUE_COLOR) {
-        app.emitEvent('keyDown', cube.uuid);
-    }
-
-    if (key === AnimationKey.MAKE_NORMAL_COLOR) {
-        app.emitEvent('keyUp', cube.uuid);
-    }
-
-    if (key === AnimationKey.MAKE_BLUE_BG) {
-        app.emitEventReverse('keyDown', bg.uuid);
-    }
-
-    if (key === AnimationKey.MAKE_NORMAL_BG) {
-        app.emitEventReverse('keyUp', bg.uuid);
-    }
+    events[key]?.();
 }
 
 export {
     callInnerAnimation,
     AnimationKey,
-}
+};
